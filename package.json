@@ -1,0 +1,25 @@
+{
+  "name": "opencode-tts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Read the final answer in an OpenCode V2 terminal session aloud.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isturiz/opencode-tts.git"
+  },
+  "type": "module",
+  "exports": {
+    "./tui": "./tui.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "entities": "9.0.0",
+    "marked": "18.2.1"
+  }
+}
