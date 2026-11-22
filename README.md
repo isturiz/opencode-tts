@@ -41,10 +41,29 @@ The default voice is American English (`female-american-english`).
 | `/tts-speak` | Leader (usually `Ctrl+X`), then `Shift+S` | Read the last completed answer in the visible session. |
 | `/tts-stop` | `Esc` | Cancel synthesis and playback. When speech is idle, `Esc` behaves normally. |
 
+You can also click **Listen** at the bottom of the session's composer. The
+button changes to **Stop voice** while speech is starting or playing.
+
+## Playback settings
+
+Press `Ctrl+P` and choose **Text-to-speech settings**. Use it to set:
+
+- **Mode**: **Manual** (default), or **Automatic** to read new successful
+  answers in the visible session. It does not replay older answers.
+- **Model** and **Voice**: select an installed speech-capable model and any of
+  its advertised voices when using local Ollama. The plugin doesn't download
+  models. A new model starts with its own default voice.
+- **Reset**: clear the saved overrides for the configured provider and return
+  to the configured values or built-in defaults.
+
+Preferences persist through OpenCode's plugin storage. They do not edit your
+`cli.json` and are scoped to its provider configuration. With other providers,
+change model and voice in `cli.json`; the panel still controls playback mode.
+
 ## What gets read?
 
-Playback is manual. The plugin prepares a spoken copy only when requested and
-leaves the transcript unchanged. It skips reasoning, tool output, code
+The plugin prepares a separate spoken copy and leaves the transcript
+unchanged. It skips reasoning, tool output, code
 blocks, tables, and headings or labels that only introduce skipped material.
 A silent background follow-up does not replace the last visible answer.
 
@@ -68,7 +87,8 @@ Hex is optional; typing and other dictation tools work as usual.
 
 The speech provider is independent of the model OpenCode uses to write the
 answer. If you configure a remote speech provider, it receives the filtered
-answer text only when you request playback. The plugin does not follow redirects
+answer text when playback begins, including automatically if you opt in.
+The plugin does not follow redirects
 or fall back to another provider.
 
 ### Use a different endpoint
@@ -121,6 +141,7 @@ speech sampling controls, and currently accepts only `speed: 1`.
 | `player.volume` | `100` (0–100). |
 | `player.pcmSampleRate`, `player.pcmChannels` | `24000`, `1`. Used only for signed little-endian 16-bit raw PCM. |
 | `pronunciationLocale` | `en` or `es` for recognized English or Spanish voice IDs, otherwise `und` (neutral). Override with a locale such as `en-GB` or `es-MX`. |
+| `playbackMode` | `manual` by default. Set `automatic` to opt in, or change the mode in the settings panel. |
 | `maxChars`, `timeoutMs` | `4096` UTF-16 code units and `180000` ms per speech chunk. Use a smaller `maxChars` if your provider has a lower input limit. |
 | `speakKey`, `stopKey` | `<leader>shift+s` and `escape`. Set either to `false` to disable that shortcut without removing the slash command. |
 

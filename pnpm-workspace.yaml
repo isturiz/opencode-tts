@@ -1,0 +1,2 @@
+# The OpenCode terminal supplies its own OpenTUI and Solid runtime.
+autoInstallPeers: false
