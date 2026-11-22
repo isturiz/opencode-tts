@@ -33,11 +33,11 @@ async function adapterFile(t, source, name = "adapter.mjs") {
   return file
 }
 
-test("local defaults request Spanish WAV and return audio bytes", async (t) => {
+test("local defaults request American English WAV and return audio bytes", async (t) => {
   const fetch = t.mock.method(globalThis, "fetch", async () =>
     new Response(Uint8Array.of(1, 2), { headers: { "content-type": "Audio/WAV; codec=pcm" } }))
   const provider = await createSpeechProvider()
-  const { stream, format } = await provider.synthesize(" Hola ")
+  const { stream, format } = await provider.synthesize(" Hello ")
   assert.equal(format, "wav")
   assert.ok(stream instanceof ReadableStream)
   assert.deepEqual(await readAudio(stream), [1, 2])
@@ -50,9 +50,9 @@ test("local defaults request Spanish WAV and return audio bytes", async (t) => {
   assert.equal(headers.get("content-type"), "application/json")
   assert.equal(headers.get("authorization"), null)
   assert.deepEqual(JSON.parse(request.body), {
-    input: " Hola ",
+    input: " Hello ",
     model: "lfm3-audio",
-    voice: "female-spanish",
+    voice: "female-american-english",
     response_format: "wav",
   })
 })

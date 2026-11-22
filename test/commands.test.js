@@ -78,12 +78,15 @@ test("forwards options and only sends the final Markdown prose", async () => {
   assert.equal(plugin.stop.run(), false);
 });
 
-test("uses the Spanish voice locale by default and allows a pronunciation locale override", async () => {
-  const answer = "La variante es `nvfp4`.";
+test("infers pronunciation from English defaults and explicit voices, with an override", async () => {
+  const answer = "Use `@reviewer`.";
   for (const [options, expected] of [
-    [{}, "La variante es ene uve efe pe cuatro."],
-    [{ provider: { voice: "male-spanish" } }, "La variante es ene uve efe pe cuatro."],
-    [{ provider: { voice: "unrelated" }, pronunciationLocale: "es-MX" }, "La variante es ene uve efe pe cuatro."],
+    [{}, "Use at reviewer."],
+    [{ provider: { voice: "male-british-english" } }, "Use at reviewer."],
+    [{ provider: { voice: "female-spanish" } }, "Use arroba reviewer."],
+    [{ provider: { voice: "alloy" } }, "Use @ reviewer."],
+    [{ provider: { voice: "alloy" }, pronunciationLocale: "en" }, "Use at reviewer."],
+    [{ provider: { voice: "unrelated" }, pronunciationLocale: "es-MX" }, "Use arroba reviewer."],
   ]) {
     const plugin = setup({ options, answer });
     plugin.speak.run();
